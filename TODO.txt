@@ -1,0 +1,8 @@
+Screens needed in priority order:
+1. Match Overview w/ recent data
+2. Tracker-Phone connection
+3. Match history list (can have search)
+4. User data (season average, account settings, etc.)
+5. Home screen
+6. Login
+Bottom Tabs will show: Home - Stats - History - Profile

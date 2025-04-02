@@ -1,0 +1,132 @@
+Soccer Tracker Notes:
+
+Supplies:
+1. Microcontroller:
+
+    Seeed Studio XIAO nRF52840 Sense (Already have)
+
+2. GPS Module:
+
+    ATGM336H GPS Module (or NEO-M8N GPS Module) for location tracking (Already have or considering)
+
+    Breakout board for the GPS module (if needed, depending on your module)
+
+3. Battery:
+
+    3.7V LiPo Battery (Choose based on your size and capacity needs; 600mAh, 620mAh, or 630mAh should work)
+	chargin module is included on the microcontroller
+
+4. Sensors (Optional but useful):
+
+    Accelerometer/Gyroscope (Already built into the Seeed Studio XIAO nRF52840 Sense for movement tracking)
+
+    Magnetometer (if needed): For more precise orientation and heading data (e.g., HMC5883L or QMC5883L)
+
+5. Connectors and Wires:
+
+    JST connectors (if not included with your battery or GPS module)
+
+    Dupont Wires for easy connections between the microcontroller, sensors, and GPS module
+
+6. Enclosure (Optional for wearable form factor):
+
+    Compact enclosure to house the microcontroller, battery, GPS module, and other components (depending on your design)
+
+
+8. Other Accessories (Optional):
+
+    Power switch (if you want to turn the device on/off)
+
+    Resistors and capacitors (if needed for specific sensor connections)
+
+
+
+
+
+DEVELOPMENT STEPS
+
+Step 1: Set Up Development Environment
+
+    Install Arduino IDE or CircuitPython: Ensure you have the Arduino IDE installed if you're using Arduino, or CircuitPython if you plan to use that. Since your Seeed Studio XIAO nRF52840 Sense supports both, it’s up to your preference.
+
+        For Arduino IDE, download and install it if you haven't already.
+
+        Add the nRF52840 board support via the Boards Manager in the Arduino IDE.
+
+Step 2: Program the Microcontroller
+
+    Write basic code to test sensor communication (you can start by checking if the GPS module and the accelerometer/gyroscope are responding properly). For instance, make sure the GPS module is outputting the correct coordinates, and that the accelerometer/gyroscope is measuring movement data.
+
+        Start with a basic GPS example sketch and a sensor test code to print values to the serial monitor.
+
+Step 3: Connect Your Sensors and GPS Module
+
+    Connect the GPS Module: Use Dupont wires to connect the GPS module to your XIAO nRF52840. Refer to the wiring guide provided with the GPS module or its breakout board for VCC, GND, RX, and TX connections.
+
+    Test the GPS Module: If you have code ready, upload it to the microcontroller and open the Serial Monitor to check the output from the GPS module (such as coordinates, time, etc.).
+
+Step 4: Write the Core Application Logic
+
+    Movement Tracking: Since you have an accelerometer/gyroscope built into the XIAO, you can now start developing the logic to track movement and generate location data (e.g., plotting movement on a soccer pitch).
+
+    If you're using GPS data to build a heatmap, you'll need to figure out how to log the position over time and map it to a 2D surface like a soccer pitch.
+
+Step 5: Testing and Debugging
+
+    Test Your Components Together: Once your basic code works, integrate the GPS data and movement data (from the accelerometer/gyroscope). The next step would be to capture this data over time and start mapping it to a heatmap (perhaps visualized on a simple display or sent to your computer/phone).
+
+    Debug: Troubleshoot any issues in code, wiring, or sensor data as you go.
+
+Step 6: Powering the System (Optional for Now)
+
+    Once you’ve tested everything using your PC’s USB, you can focus on choosing a power supply:
+
+        For portability, you’ll likely need a battery (3.7V LiPo, as discussed), and possibly a charge controller (like TP4056) to handle charging and voltage regulation.
+
+        For testing, you can just use a power bank or a USB power adapter to keep your setup running if you don't have a battery yet.
+
+Step 7: Finalizing the Design
+
+    Mounting the Sensors: If you're planning for a wearable form factor, start thinking about how you will attach the sensors to a wearable item (e.g., wristband, ankle strap).
+
+    Optimize Power Consumption: Once you're happy with the code and functionality, optimize the power consumption (you may need to put your device into low-power modes between data readings).
+
+Step 8: Visualizing Data (Heatmap)
+
+    For the heatmap: You can either:
+
+        Use a computer or smartphone app to visualize the data. This might involve sending the coordinates to a platform like Google Maps API or a custom app you develop.
+
+        If you want a local display, you could connect a small OLED screen to the microcontroller to display a basic heatmap (though this might be limited by the screen size).
+
+Summary of Next Steps:
+
+    Set up the IDE and write/test basic code.
+
+    Connect GPS and test its data.
+
+    Write code for movement tracking using accelerometer/gyroscope.
+
+    Test both modules working together.
+
+    Start developing logic for the heatmap.
+
+    Focus on power supply (USB for now, battery later).
+
+    Mount and package the components for the wearable.
+
+    Optimize power usage and finalize the design.
+
+    (Optional) Create a visualization for the heatmap.
+
+
+
+Reddit feedback:
+
+
+My son uses the Statsports Arsenal FC edition - but I would not recommend it. As others have said, quite buggy and after hitting issues with heat-maps, took Statsports 6 months to let me know it was an issue on Android, not iOS which is still unresolved.
+In terms of most valuable functionality though, heat maps, IMO, are huge benefit when you are looking at a sport which requires positional play. Give you fantastic insight into where the player is spending most of their time, which even in a teams sport, can be reflective of not only that players output, but the overall sense of the match itself.
+
+The normal KPIs such as distance covered, speed, HSR etc. they are all useful as a set of standard KPIs. However, while Statsports refer to "Insights" in the app, you're only really getting KPIs/stats, not Insights. What would be good would be analysis of the KPIs/stats, to reflect real Insights on your performance, maybe even coupled with the heat map data, to again, provide you with greater Insights. You could even go so far as to feed the stats/KPIs into an AI model and get some form of GenAI output on your performance? All simple :-)
+
+My other bugbear is that it's the same set of stats/KPIs for match and training. Yes, you can select whether the session was a "Gameday" or "Training" session, but a heat map is not of much use when doing training drills! The training KPIs need more thought
