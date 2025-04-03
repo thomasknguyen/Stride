@@ -6,3 +6,113 @@ Screens needed in priority order:
 5. Home screen
 6. Login
 Bottom Tabs will show: Home - Stats - History - Profile
+
+
+
+
+Need to make the home page the screen that prompts for connection
+
+
+
+How to Use BLE in Your App (Without an Apple Developer Account)
+
+Since you want to communicate with your hardware tracker via BLE, here’s the best way to proceed:
+1. Install react-native-ble-plx
+
+You'll need react-native-ble-plx to handle BLE communication.
+
+Run this inside your project:
+
+npx expo install react-native-ble-plx
+
+Expo does not support this module inside Expo Go, so you will need a custom development build.
+2. Create a Development Build (Since Expo Go Won’t Work)
+
+You must create a custom development build to access native BLE features.
+
+Run:
+
+eas build --profile development --platform ios
+
+After the build completes, install the .app file on your iPhone using Xcode or Apple Configurator.
+
+⚠️ You will need a Mac for this step. If you don’t have a Mac, you’ll need to find a way to access one (e.g., Mac rental services or a cloud Mac).
+3. Write Your BLE Code in useBLE.ts
+
+Here’s a basic example of how to scan and connect to BLE devices:
+useBLE.ts
+
+import { useState, useEffect } from "react";
+import { BleManager, Device } from "react-native-ble-plx";
+import { Platform, PermissionsAndroid } from "react-native";
+
+const bleManager = new BleManager();
+
+export default function useBLE() {
+  const [allDevices, setAllDevices] = useState<Device[]>([]);
+
+  useEffect(() => {
+    if (Platform.OS === "android") {
+      PermissionsAndroid.requestMultiple([
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        PermissionsAndroid.PERMISSIONS.BLUETOOTH_SCAN,
+        PermissionsAndroid.PERMISSIONS.BLUETOOTH_CONNECT,
+      ]);
+    }
+  }, []);
+
+  const scanForDevices = () => {
+    bleManager.startDeviceScan(null, null, (error, device) => {
+      if (error) {
+        console.error("Scan Error:", error);
+        return;
+      }
+      if (device) {
+        setAllDevices((prevDevices) => {
+          if (!prevDevices.some((d) => d.id === device.id)) {
+            return [...prevDevices, device];
+          }
+          return prevDevices;
+        });
+      }
+    });
+
+    setTimeout(() => bleManager.stopDeviceScan(), 5000); // Stop scanning after 5 sec
+  };
+
+  return { scanForDevices, allDevices };
+}
+
+4. Modify Your UI to Trigger BLE Scanning
+
+In index.tsx, you already have this part:
+
+<TouchableOpacity
+  onPress={scanForDevices}
+  className="bg-blue-500 p-3 rounded-lg mt-5"
+>
+  <Text className="text-white text-center font-bold">Scan for Devices</Text>
+</TouchableOpacity>
+
+This will work when your BLE setup is correctly implemented.
+5. Run Your App on an iPhone
+
+Since Expo Go does not support BLE, you need to install your development build.
+
+    Build it:
+
+    eas build --profile development --platform ios
+
+    Install it on your iPhone (without a Developer Account):
+
+        Open Xcode → Go to Devices and Simulators
+
+        Select your iPhone and install the generated .app file
+
+Alternatively, use Apple Configurator 2.
+Key Takeaways
+
+✅ You can use BLE without an Apple Developer account
+✅ You must create a development build (eas build --profile development --platform ios)
+✅ You cannot use BLE inside Expo Go
+✅ You need a Mac to install the app on your iPhone
